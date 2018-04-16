@@ -47,4 +47,4 @@ def get_immediate_subdirectories(data_directory):
             if os.path.isdir(os.path.join(data_directory, name))]
 
 
-divide(sys.argv[1:2])
+divide(sys.argv[1])
