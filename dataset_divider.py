@@ -10,6 +10,15 @@ dirs = ['train', 'test', 'valid']
 dir_percentage = {'train': 0.6, 'test': 0.2, 'valid': 0.2}  # 60% : 20% : 20%
 
 
+def get_destination_dir():
+    rand = np.random.rand(1)
+    if rand < dir_percentage['train']:
+        return 'train'
+    if dir_percentage['train'] < rand > dir_percentage['train'] + dir_percentage['test']:
+        return 'test'
+    return 'valid'
+
+
 def divide(dir):
     if not os.path.exists(dir):
         raise Exception
@@ -26,16 +35,10 @@ def divide(dir):
                 os.chdir('..')
 
         for file in files:
-            rand = np.random.rand(1)
-            if rand < dir_percentage['train']:
-                dest = 'train'
-            elif dir_percentage['train'] < rand > dir_percentage['train'] + dir_percentage['test']:
-                dest = 'test'
-            else:
-                dest = 'valid'
             try:
-                move_from = dir + '/' + label + '/' + file
-                move_to = dir + '/' + label + '/' + dest + '/' + file
+                dest = get_destination_dir()
+                move_from = os.path.join(*[dir, label, file])
+                move_to = os.path.join(*[dir, label, dest, file])
                 shutil.move(move_from, move_to)
             except Exception as e:
                 print(e)
