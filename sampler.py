@@ -45,7 +45,6 @@ def create_sample(dir, sample_size=100, labeled=True):
 
 
 def create_sample_from_csv(filename, sample_size=200, files_dir='train', extension='jpg'):
-    #broken for now, for some reason makes a sample out of .git folder :P
     f = open(filename, mode='r')
     reader = csv.reader(f)
     sample_file_name = filename + "_sample"
