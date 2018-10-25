@@ -18,14 +18,6 @@ def move_to_validation():
     return True
 
 
-# usage:
-# python sampler.py --csv labels.csv
-# only handles .jpg files for now
-
-# python create_validation.py --sample 25 --data /Users/foo/Documents/Data
-# assumes file structure like this [valid => [label1 => [ab,c]]]
-# input parameter train-first
-
 # assumes file structure like this [label1 => ['valid', 'train'], label2 => ['valid', 'train']]
 # input parameter label-first
 
@@ -35,17 +27,13 @@ def create_sample(dir, sample_size=100, labeled=True):
         raise Exception('no training folder')
 
     os.chdir(dir)
-    # what if dir exists
     if not os.path.exists('valid'):
         os.mkdir('valid')
     os.chdir('train')
     dir_list = get_immediate_subdirectories(dir)
-    print(dir_list)
     for label in dir_list:
         if label.startswith('.'):
             continue  # skip hidden dirs
-        if '_sample' in label:
-            continue
         if label == 'train':
             path = os.path.join(*[dir, label])
             os.chdir(path)
@@ -53,7 +41,6 @@ def create_sample(dir, sample_size=100, labeled=True):
             # print(dir_list)
             for foo in dir_list:
                 sub_path = os.path.join(*[path, foo])
-                # print(foo)
                 os.chdir(sub_path)
                 files = os.listdir(sub_path)
                 # print(sub_path)
@@ -71,7 +58,6 @@ def create_sample(dir, sample_size=100, labeled=True):
                             shutil.copy(move_from, move_to)
                         except Exception as e:
                             print(e)
-
 
             os.getcwd()
 
