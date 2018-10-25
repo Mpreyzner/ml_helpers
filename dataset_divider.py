@@ -9,6 +9,7 @@ import sys
 dirs = ['train', 'test', 'valid']
 dir_percentage = {'train': 0.6, 'test': 0.2, 'valid': 0.2}  # 60% : 20% : 20%
 
+# what if we have train and test alreADy and only need validation??
 
 def get_destination_dir():
     rand = np.random.rand(1)
